@@ -1,9 +1,10 @@
 {
-  "name": "Jump SCSS — SCSS-files for Jumper by Jump Creative Agency",
-  "version": "0.0.1",
+  "name": "Jump SCSS — SCSS-mixins for «Jumper» by Jump Creative Agency",
+  "version": "0.1.0",
+  "description": "It's some additional mixins as underline() and respond-to()",
   "keywords": [
-  	"foundation",
   	"scss",
-  	"jump"
+  	"jump",
+  	"sass"
   ]
 }

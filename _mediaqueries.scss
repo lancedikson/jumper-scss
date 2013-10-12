@@ -1,0 +1,81 @@
+//
+// More flexible Media Queries. 
+// More information about it here: https://gist.github.com/lancedikson/6130227
+
+// Redefine default variables
+//
+$small-screen: 768px;
+$medium-screen: 1280px;
+$large-screen: 1440px;
+ 
+$screen: "only screen" !default;
+$small: "only screen and (min-width: #{$small-screen})";
+$medium: "only screen and (min-width:#{$medium-screen})";
+$large: "only screen and (min-width:#{$large-screen})";
+$landscape: "only screen and (orientation: landscape)";
+$portrait: "only screen and (orientation: portrait)";
+ 
+// Funtion returns width or other media features for media queries
+@function device-width($media) {
+  @if type-of($media) == string {
+    @if $media == small {
+        @return 0;
+    } @else if $media == medium {
+        @return $small-screen;
+    } @else if $media == large {
+        @return $medium-screen;
+    } @else if $media == landscape {
+        @return $landscape;
+    } @else if $media == portrait {
+        @return $portrait;
+    } @else if $media == screen {
+        @return 0;
+    }
+  }
+  @else if type-of($media) == number {
+    @if unitless($media) {
+        $result: $media + 0px;
+        @return $result; 
+    } @else {
+        @if unit($media) == 'px' {
+          @if $media > 0px {
+            @return $media;
+          }
+        } @else if unit($media) == 'em' {
+            @if $media > 0em {
+                @return unquote($media);
+            }
+        }
+    }
+  } 
+}
+ 
+// Count pixel ratio for old versions Opera (<15) 
+@function o-px-ratio($res) {
+  $resRatio: $res*10;
+  @return #{$resRatio}/10;
+}
+ 
+// Count resolution to dpi
+@function resolution-dpi($res) {
+  @return $res*96dpi;
+}
+ 
+// Count resolution to dppx
+@function resolution-dppx($res) {
+  @return #{$res} + 'dppx';
+}
+ 
+// Main mixin
+@mixin respond-to($media:false, $resolution:null) { 
+  $device-width: device-width($media);
+  @if type-of($device-width) == number {
+    @if $resolution {
+      @media only screen and (min-width: $device-width) and (-webkit-min-device-pixel-ratio: $resolution), only screen and (min-width: $device-width) and (min--moz-device-pixel-ratio: $resolution), only screen and (min-width: $device-width) and (-o-min-device-pixel-ratio: o-px-ratio($resolution)), only screen and (min-width: $device-width) and (min-device-pixel-ratio: $resolution), only screen and (min-width: $device-width) and (min-resolution: resolution-dpi($resolution)), only screen and (min-width: $device-width) and (min-resolution: resolution-dppx($resolution)) { @content; }
+    } @else {
+      @media only screen and (min-width: $device-width) { @content; }
+    }
+  } @else if type-of($device-width) == string {
+    @media #{$device-width} { @content; }
+  }
+}

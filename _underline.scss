@@ -1,0 +1,18 @@
+@mixin underline($primary-color: #00b4e0, $secondary-color: #fff, $_height: 1px, $dashed: false, $dash-width: 3px, $hole-width: 3px, $position: 0px 95%) {
+	background: -webkit-linear-gradient(left, $primary-color $dash-width, $secondary-color $hole-width) repeat-x;
+	background: -moz-linear-gradient(left, $primary-color $dash-width, $secondary-color $hole-width) repeat-x;
+	background: -o-linear-gradient(left, $primary-color $dash-width, $secondary-color $hole-width) repeat-x;
+	background: -ms-linear-gradient(left, $primary-color $dash-width, $secondary-color $hole-width) repeat-x;
+	background: linear-gradient(to right, $primary-color $dash-width, $secondary-color $hole-width) repeat-x;
+	background-position: $position;
+	$bgsize: $dash-width;
+	@if $dashed == true {
+		$bgsize: $dash-width + $hole-width;
+	}
+	-webkit-background-size: $bgsize $_height;
+	-moz-background-size: $bgsize $_height;
+	background-size: $bgsize $_height;
+	@if $secondary-color != transparent {
+		text-shadow: -1px 0 $secondary-color, 1px 0 $secondary-color, -2px -1px $secondary-color, 2px -1px $secondary-color;
+	}
+}
